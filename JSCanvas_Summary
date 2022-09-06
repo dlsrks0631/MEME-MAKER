@@ -25,6 +25,18 @@ ctx.rect(350,350,100,100)
 ctx.fillStyle = "red"
 ctx.fill() -> 아래 하나만 빨간색으로 색상 변경
 
-ctx.moveTo()
+ctx.moveTo(50,50) -> 선을 긋지 않고 (50,50)으로 브러쉬의 위치를 옮김
+ctx.lineTo(150,50) -> 연필을 종이의 다른 부분으로 이음 
+ctx.stroke()
+-> y좌표는 놔두고 X가 50인 위치에서 X가 150위치까지 선을 그음
+ctx.lineTo(150,150)
+ctx.stroke()
+-> Y = 50 에서 150 까지 선을 그음
+
+ctx.lineWidth = 3 -> 선 두께
+ctx.strokeRect(x좌표,y좌표,넓이,높이)
+ctx.arc(290, 150, 50, 0, 2 * Math.PI) -> 원
+--> arc(x좌표,y좌표,크기,starting_angle = 0,2(ending_angle) * Math.PI)
+--> ending_angle : 시작위치 동 0PI, 남쪽 0.5PI, 서 1.0PI 북 1.5PI 제자리 2.0PI
 
 
