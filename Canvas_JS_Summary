@@ -1,0 +1,27 @@
+
+<!-- < Canvas API >
+
+(ex)
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d"); -> 그림 그리게 도와주는 것
+canvas.width = 800;
+canvas.height = 800;
+
+ctx.fillRect(시작X좌표,시작Y좌표,넓이,높이);
+-> (x,y)를 시작으로 지정된 넓이와 높이에 맞게 직사각형을 채워줌
+
+ctx.rect(시작X좌표,시작Y좌표,넓이,높이);
+-> (x,y)를 시작으로 지정된 넓이와 높이에 맞게 직사각형을 만듦
+ctx.stroke() -> 선만 나타남
+ctx.fill() -> 안을 채움
+
+ctx.beginPath() -> 이 전 경로와 단절된다는 뜻
+(ex)
+ctx.rect(50,50,100,100);
+ctx.rect(150,150,100,100);
+ctx.fill();
+
+ctx.beginPath(); -> 전 경로 무시
+ctx.rect(350,350,100,100);
+ctx.fillStyle = "red";
+ctx.fill() -> 아래 하나만 빨간색으로 색상 변경
