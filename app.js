@@ -19,8 +19,13 @@ const CANVAS_HEIGHT = 800;
 
 const fileInput = document.getElementById("file");
 
+const textInput = document.getElementById("text");
+
+const saveBtn = document.getElementById("save");
+
 canvas.width = 800;
 canvas.height = 800;
+ctx.lineCap = "round";
 ctx.lineWidth = lineWidth.value; // 자바스크립트가 실행될 때 input의 기본값으로 초기화 (한 번만 실행)
 
 let isPainting = false;
@@ -101,12 +106,32 @@ function onFileChange(event) {
   };
 }
 
+function onDoubleClick(event) {
+  const text = textInput.value;
+  if (text !== "") {
+    ctx.save(); // ctx의 현재 상태를 저장
+    ctx.lineWidth = 1;
+    ctx.font = "48px serif";
+    ctx.fillText(text, event.offsetX, event.offsetY); // -> strokeText도 됨
+    ctx.restore(); // 저장해뒀던 버전으로 되돌림
+  }
+}
+
+function onSaveClick() {
+  const url = canvas.toDataURL();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myDrawing.png";
+  a.click();
+}
+
 // click => mousedown + mouseup
 canvas.addEventListener("click", onCanvasClick);
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
 canvas.addEventListener("mouseleave", cancelPainting);
+canvas.addEventListener("dblclick", onDoubleClick);
 
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
@@ -117,3 +142,4 @@ modeBtn.addEventListener("click", onModeClick);
 destoryBtn.addEventListener("click", onDestroyClick);
 eraserBtn.addEventListener("click", onEraserClick);
 fileInput.addEventListener("change", onFileChange);
+saveBtn.addEventListener("click", onSaveClick);
