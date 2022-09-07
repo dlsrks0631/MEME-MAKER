@@ -1,17 +1,28 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const lineWidth = document.getElementById("line-width");
-const color = document.getElementById("color");
+const lineWidth = document.getElementById("line-width"); // 선 굵기 변경
+const color = document.getElementById("color"); // 선 색상 변경
+
+// 선 or 채우기 색상 선택
+// HTML에서 data attribute를 사용하면 원하는 문자열 어떤 값이든 넣어줄 수 있음
 const colorOptions = Array.from(
+  // forEach를 사용해야 하기때문에 array로 바꿔줌
   document.getElementsByClassName("color-option")
 );
 
+const modeBtn = document.getElementById("mode-btn"); // 처음 시작할 때 Fill을 가지고 있음
+const destoryBtn = document.getElementById("destroy-btn");
+const eraserBtn = document.getElementById("eraser-btn");
+
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 800;
+
 canvas.width = 800;
 canvas.height = 800;
-ctx.lineWidth = lineWidth.value;
+ctx.lineWidth = lineWidth.value; // 자바스크립트가 실행될 때 input의 기본값으로 초기화 (한 번만 실행)
 
-const colors = ["red", "blue", "purple"];
 let isPainting = false;
+let isFilling = false;
 
 function onMove(event) {
   if (isPainting) {
@@ -38,8 +49,8 @@ function onLineWidthChange(event) {
 }
 
 function onColorChange(event) {
-  ctx.strokeStyle = event.target.value;
-  ctx.fillStyle = event.target.value;
+  ctx.strokeStyle = event.target.value; // strokeStyle -> 라인의 색깔을 바꿔줌
+  ctx.fillStyle = event.target.value; // fillStyle -> 채우는 색깔을 바꿔줌
 }
 
 function onColorClick(event) {
@@ -49,6 +60,35 @@ function onColorClick(event) {
   color.value = colorValue;
 }
 
+function onModeClick() {
+  if (isFilling) {
+    isFilling = false;
+    modeBtn.innerText = "Fill";
+  } else {
+    // 채우기 모드가 아니면 채우기 모드로 바꿔줌
+    isFilling = true;
+    modeBtn.innerText = "Draw";
+  }
+}
+
+function onCanvasClick() {
+  if (isFilling) {
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  }
+}
+
+function onDestroyClick() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
+function onEraserClick() {
+  ctx.strokeStyle = "white";
+  isFilling = false;
+  modeBtn.innerText = "Fill";
+}
+// click => mousedown + mouseup
+canvas.addEventListener("click", onCanvasClick);
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
@@ -58,3 +98,7 @@ lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
 
 colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
+
+modeBtn.addEventListener("click", onModeClick);
+destoryBtn.addEventListener("click", onDestroyClick);
+eraserBtn.addEventListener("click", onEraserClick);

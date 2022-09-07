@@ -74,5 +74,18 @@ function onLineWidthChange(event) {
 
 lineWidth.addEventListener("change", onLineWidthChange);
 
+< Range Input 선굵기 변경 >
++ 자바스크립트보다 HTML element가 먼저 로드됨.
+(ex)
+1. HTML
+<input id="line-width" type="range" min="1" max="10" value="5"(처음 시작값) step="0.5"(단위) />
+
+2. JS
+const lineWidth = document.getElementByID("line-width");
+ctx.lineWidth = lineWidth.value -> 자바스크립트가 실행될 때 input의 기본값으로 초기화
+ctx.lineWidth = event.target.value;
+
+
+
 
 
