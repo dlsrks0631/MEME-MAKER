@@ -17,6 +17,8 @@ const eraserBtn = document.getElementById("eraser-btn");
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 800;
 
+const fileInput = document.getElementById("file");
+
 canvas.width = 800;
 canvas.height = 800;
 ctx.lineWidth = lineWidth.value; // 자바스크립트가 실행될 때 input의 기본값으로 초기화 (한 번만 실행)
@@ -87,6 +89,18 @@ function onEraserClick() {
   isFilling = false;
   modeBtn.innerText = "Fill";
 }
+
+function onFileChange(event) {
+  const file = event.target.files[0];
+  const url = URL.createObjectURL(file);
+  const image = new Image();
+  image.src = url;
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    fileInput.value = null;
+  };
+}
+
 // click => mousedown + mouseup
 canvas.addEventListener("click", onCanvasClick);
 canvas.addEventListener("mousemove", onMove);
@@ -102,3 +116,4 @@ colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
 modeBtn.addEventListener("click", onModeClick);
 destoryBtn.addEventListener("click", onDestroyClick);
 eraserBtn.addEventListener("click", onEraserClick);
+fileInput.addEventListener("change", onFileChange);
