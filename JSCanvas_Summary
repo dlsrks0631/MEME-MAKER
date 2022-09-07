@@ -39,4 +39,40 @@ ctx.arc(290, 150, 50, 0, 2 * Math.PI) -> 원
 --> arc(x좌표,y좌표,크기,starting_angle = 0,2(ending_angle) * Math.PI)
 --> ending_angle : 시작위치 동 0PI, 남쪽 0.5PI, 서 1.0PI 북 1.5PI 제자리 2.0PI
 
+< Onmousedown and drag and Onmouseup >
+(ex)
+function onMove(event) {
+  if (isPainting) {
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    return;
+  }
+  ctx.beginPath(); // 이전에 그려진 선과 새로운 선의 연결을 끊어내기 위함
+  ctx.moveTo(event.offsetX, event.offsetY);
+}
+
+function startPainting() {
+  // 선을 그리게 함
+  isPainting = true;
+}
+
+function cancelPainting() {
+  // 마우스 포인터만 움직임
+  isPainting = false;
+}
+
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", cancelPainting);
+canvas.addEventListener("mouseleave", cancelPainting -> 마우스가 그림판 밖으로 나가도 False로 바꾸기 위함
+
+< Change Line-width >
+(ex)
+function onLineWidthChange(event) {
+  ctx.lineWidth = event.target.value;
+}
+
+lineWidth.addEventListener("change", onLineWidthChange);
+
+
 
